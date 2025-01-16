@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button{
+            width: 90px;
+        }
+        .main{
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(241, 240, 240);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <p class="result-out">Pick a Side</p>
+        <div>
+            <button class="heads" onclick=" pickMove('heads'); ">heads</button>
+    
+            <button class="tails" onclick=" pickMove('tails');">tails</button>
+        
+        </div>
+    
+        <p class="score"></p>
+    
+        <button onclick="
+        resetScore();
+        ">Reset Score</button>
+    
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        function resetScore() {
+            result.innerHTML = 'Pick a Side'
+            result.style.color = 'black'
+            localStorage.removeItem('score')
+            history = { wins: 0, losses: 0 };
+            document.querySelector('.score').innerHTML = `Wins: ${history.wins} Losses: ${history.losses}`
+        }
+        let history = JSON.parse(localStorage.getItem('score')) || {
+            wins: 0,
+            losses: 0
+        };
+        let score = document.querySelector('.score').innerHTML = `Wins: ${history.wins} Losses: ${history.losses}`
+        let result = document.querySelector('.result-out')
+        function pickMove(playerMove) {
+            let guess = Math.random() < 0.5 ? 'heads' : 'tails'
+
+
+            if (guess === playerMove) {
+                result.innerHTML = `You Picked ${playerMove} computer picked ${guess} (You Win)`
+                result.style.color = 'green'
+                history.wins += 1;
+            } else if (guess !== playerMove) {
+                result.innerHTML = `You Picked ${playerMove} computer picked ${guess} (You Lose)`
+                result.style.color = 'red'
+                history.losses += 1;
+            }
+        
+            score = document.querySelector('.score').innerHTML = `Wins: ${history.wins} Losses: ${history.losses}`
+            savehistory();
+        }
+
+        function savehistory() {
+            localStorage.setItem('score', JSON.stringify(history))
+
+        }
+
+
+
+    </script>
+
+
+
+</body>
+
+</html>
